@@ -1,4 +1,4 @@
-import pickle
+import json
 import socket
 import logging
 import common
@@ -42,7 +42,7 @@ admin_choice = student_choice + ['8', '9', '10']
 
 while True:
     login_flag = False
-    user_object = None
+
     if not login_flag:
         print(common.decode_data(client_socket))
         choice = input("Enter choice: ")
@@ -58,7 +58,7 @@ while True:
             password = input()
             common.encode_data(client_socket, password)
             user_object = common.decode_data(client_socket)
-            # user_object = pickle.loads(user_object)
+            user_object_dict = json.loads(user_object)
             if user_object and not user_object.isnumeric():
                 login_flag = True
                 menu = common.decode_data(client_socket)
@@ -82,25 +82,26 @@ while True:
             print(custom_code.eval_status_codes[status_code])
 
     if login_flag:
-        common.encode_data(client_socket, user_object)
+        user_object_json = json.dumps(user_object_dict)
+        common.encode_data(client_socket, user_object_json)
         print(common.decode_data(client_socket))
         choice = input()
 
-        # if user_object.role == "student":
-        #     while choice not in student_choice:
-        #         choice = input("Enter valid choice")
-        # if user_object.role == "admin":
-        #     while choice not in admin_choice:
-        #         choice = input("Enter valid choice")
+        if user_object_dict['_role'] == "student":
+            while choice not in student_choice:
+                choice = input("Enter valid choice: ")
+        if user_object_dict['_role'] == "admin":
+            while choice not in admin_choice:
+                choice = input("Enter valid choice: ")
 
         common.encode_data(client_socket, choice)
 
         if choice == '3':
-            user_object = None
+            user_object_loaded = None
             login_flag = False
 
         if choice == '4':
-            print("Am i authorized")
+            pass
 
 
 

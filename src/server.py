@@ -1,4 +1,4 @@
-import pickle
+import json
 import socket
 import logging
 import time
@@ -66,21 +66,23 @@ while True:
                 user_object = form.sign_in()
                 if user_object:
                     login_flag = True
-                    common.encode_data(client_object, user_object)
-                    menu = RegistrationForm.display_operations(user_object.role)
-                    time.sleep(1)
-                    common.encode_data(client_object, str(menu))
-                    # send status code at last
-                    time.sleep(1)
-                    common.encode_data(client_object, custom_code.codes[0])
-                    # menu = RegistrationForm.display_operations(user_object.role)
-                    # user_object = pickle.dumps(user_object)
                     # common.encode_data(client_object, user_object)
+                    # menu = RegistrationForm.display_operations(user_object.role)
                     # time.sleep(1)
                     # common.encode_data(client_object, str(menu))
                     # # send status code at last
                     # time.sleep(1)
                     # common.encode_data(client_object, custom_code.codes[0])
+
+                    menu = RegistrationForm.display_operations(user_object.role)
+                    user_object_as_dict = vars(user_object)
+                    user_object_dump = json.dumps(user_object_as_dict)
+                    common.encode_data(client_object, user_object_dump)
+                    time.sleep(1)
+                    common.encode_data(client_object, str(menu))
+                    # send status code at last
+                    time.sleep(1)
+                    common.encode_data(client_object, custom_code.codes[0])
                 else:
                     raise custom_exceptions.InvalidCredentialsError(custom_code.codes[3])
             except custom_exceptions.InvalidCredentialsError as invalid:
@@ -113,6 +115,7 @@ while True:
 
     if login_flag:
         recv_object = common.decode_data(client_object)
+        recv_object_json = json.loads(recv_object)
         if recv_object:
             common.encode_data(client_object, "Enter choice")
             choice = common.decode_data(client_object)
