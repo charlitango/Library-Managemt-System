@@ -101,8 +101,14 @@ while True:
             login_flag = False
 
         if choice == '4':
-            pass
-
+            data = common.decode_data(client_socket)
+            json_data = json.loads(data)
+            print("*****************************************************************")
+            for record in json_data:
+                print(
+                    f"book:{record['_book_name']} => author:{record['_author']} => available copies:{record['_count']}"
+                )
+            print("******************************************************************")
 
 
 

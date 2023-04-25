@@ -55,6 +55,3 @@ class RegistrationForm:
         else:
             usr._User__add_user_in_file()
             return custom_code.codes[1]
-
-
-

@@ -1,4 +1,4 @@
 INFO:root:server socket created
 INFO:root:server bind to host: 8084
 INFO:root:server listening
-INFO:root:Got connection from ('127.0.0.1', 56539)
+INFO:root:Got connection from ('127.0.0.1', 54566)

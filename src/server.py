@@ -6,7 +6,8 @@ import custom_code
 import common
 import custom_exceptions
 from registration_form import RegistrationForm
-from Models.user import User
+from library import Library
+
 """
 set logging level to DEBUG
 server_logs.log : Store logs in this file
@@ -66,14 +67,6 @@ while True:
                 user_object = form.sign_in()
                 if user_object:
                     login_flag = True
-                    # common.encode_data(client_object, user_object)
-                    # menu = RegistrationForm.display_operations(user_object.role)
-                    # time.sleep(1)
-                    # common.encode_data(client_object, str(menu))
-                    # # send status code at last
-                    # time.sleep(1)
-                    # common.encode_data(client_object, custom_code.codes[0])
-
                     menu = RegistrationForm.display_operations(user_object.role)
                     user_object_as_dict = vars(user_object)
                     user_object_dump = json.dumps(user_object_as_dict)
@@ -125,4 +118,7 @@ while True:
                 login_flag = False
 
             if choice == '4':
-                pass
+                library_object = Library()
+                books_details = library_object.display_books()
+                book_details_json = json.dumps([record.__dict__ for record in books_details])
+                common.encode_data(client_object, book_details_json)
