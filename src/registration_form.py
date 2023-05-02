@@ -31,8 +31,7 @@ class RegistrationForm:
                 '6': 'Donate book',
                 '7': 'Return book',
                 '8': 'Book/s Issued',
-                '9': 'Book/s Donated',
-                '10': 'check penalty'
+                '9': 'check penalty'
             }
         if role is None:
             return {

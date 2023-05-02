@@ -163,3 +163,22 @@ while True:
             common.encode_data(client_socket, json_data)
             status_code = common.decode_data(client_socket)
             print(custom_code.eval_status_codes[status_code])
+
+        if choice == '8':
+            recv_json_string = common.decode_data(client_socket)
+            if recv_json_string.isnumeric():
+                print(custom_code.eval_status_codes[recv_json_string])
+            recv_json_dict = json.loads(recv_json_string)
+            for record in recv_json_dict:
+                print(f"user id:{record[0]} ==>book id:{record[1]}  ==>no of copies issued:{record[2]}")
+
+        if choice == '9':
+            recv_data = common.decode_data(client_socket)
+            if recv_data.isnumeric():
+                print(custom_code.eval_status_codes[recv_data])
+            recv_data_json = json.loads(recv_data)
+            for record in recv_data_json:
+                if record[1] == 'NA':
+                    print(f"user id:{record[0]} ==> penalty: No penalty")
+                else:
+                    print(f"user id:{record[0]} ==> penalty:RS{record[1]}")

@@ -172,3 +172,21 @@ while True:
                     common.encode_data(client_object, str(status_code))
                 except:
                     common.encode_data(client_object, str(custom_code.codes[4]))
+
+            if choice == '8':
+                try:
+                    library_object = Library()
+                    issued_book_details = library_object.show_issued_books(many=True)
+                    issued_book_details_json = json.dumps(issued_book_details)
+                    common.encode_data(client_object, issued_book_details_json)
+                except:
+                    common.encode_data(client_object, str(custom_code.codes[4]))
+
+            if choice == '9':
+                try:
+                    library_object = Library()
+                    penalty = library_object.check_student_penalty()
+                    penalty_json_str = json.dumps(penalty)
+                    common.encode_data(client_object, penalty_json_str)
+                except:
+                    common.encode_data(client_object, str(custom_code.codes[4]))

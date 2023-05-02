@@ -63,10 +63,23 @@ class Library:
 
         return trans._Transaction__record_transaction(trans_args, lets_donate=True)
 
-    def show_issued_books(self, user_object=None):
+    def show_issued_books(self, user_object=None, many=False):
+        trans = Transaction()
+        transaction_details = trans._Transaction__get_transaction_details()
         if user_object:
-            trans = Transaction()
-            transaction_details = trans._Transaction__get_transaction_details()
             for record in transaction_details:
                 if record.user_id == user_object['_user_id']:
                     return record.book_name, record.no_of_copies_issued
+        if many:
+            issued_book_details = []
+            for record in transaction_details:
+                each_record = [record.user_id, record.book_name, record.no_of_copies_issued]
+                issued_book_details.append(each_record)
+            return issued_book_details
+
+    def check_student_penalty(self):
+        trans = Transaction()
+        transaction_details = trans._Transaction__get_transaction_details()
+        return trans._Transaction__check_penalty(transaction_details)
+
+

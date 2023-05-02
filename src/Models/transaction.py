@@ -266,3 +266,20 @@ class Transaction:
         else:
             return self.__write_transaction_details(file, 'a', trans_object, issue_book,
                                                     lets_return, lets_donate)
+
+
+    def __check_penalty(self, transaction_details):
+        res = []
+        for record in transaction_details:
+            if record:
+                if record.is_issued == 'True':
+                    start = datetime.strptime(record.issue_date, "%Y-%m-%d %H:%M:%S.%f")
+                    expiry = start + timedelta(days=7)
+                    today = datetime.now()
+                    if expiry > today:
+                        res.append([record.user_id, 'NA'])
+                    if expiry < today:
+                        due_date = today - expiry
+                        due_days = due_date.days
+                        res.append([record.user_id, f"{due_days * 20}"])
+        return res
