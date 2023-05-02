@@ -1,5 +1,16 @@
-7969dfd2-e370-11ed-a974-90784103be24,Advanced Python,John,5
-796ae188-e370-11ed-96f2-90784103be24,Django,Bob,7
-796ae189-e370-11ed-a7b6-90784103be24,AWS,Stephane,10
-796ae18a-e370-11ed-9dcf-90784103be24,C++,Alis,5
-796ae18b-e370-11ed-8f0d-90784103be24,Java Script,Paul,5
+book_id,book_name,author,count
+7969dfd2-e370-11ed-a974-90784103be24,Advanced Python,John,8
+796ae188-e370-11ed-96f2-90784103be24,Django,Bob,19
+796ae189-e370-11ed-a7b6-90784103be24,AWS,Stephane,10
+796ae18a-e370-11ed-9dcf-90784103be24,C++,Alis,5
+796ae18b-e370-11ed-8f0d-90784103be24,Java Script,Paul,5
+9e622e92-e5a2-11ed-8806-90784103be24,Angular_donated,Unknown,2
+f22927a2-e5a2-11ed-ab01-90784103be24,Demo,unknown,3
+2c0b95ae-e5a7-11ed-b24a-90784103be24,let_me_donate,dont_know,3
+84290b46-e5a7-11ed-9bf8-90784103be24,Aurora,Unknown,2
+6d4c8f5c-e5a9-11ed-a373-90784103be24,ABCD,abcd,2
+edd91ea8-e5c0-11ed-acc0-90784103be24,ABCD,abcd,3
+cf9ddf98-e7df-11ed-b16d-90784103be24,lmnk,LMNk,16
+0a49aa30-e7ec-11ed-96ab-90784103be24,XXXXX,xxxxx,5
+168db5be-e88d-11ed-a1e7-90784103be24,Art of living,Anonynmous,3
+43486218-e88d-11ed-8cb9-90784103be24,Art of living,Anonymous,6

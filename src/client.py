@@ -1,6 +1,8 @@
 import json
 import socket
 import logging
+import uuid
+
 import common
 import custom_code
 """
@@ -81,7 +83,7 @@ while True:
             status_code = common.decode_data(client_socket)
             print(custom_code.eval_status_codes[status_code])
 
-    if login_flag:
+    while login_flag:
         user_object_json = json.dumps(user_object_dict)
         common.encode_data(client_socket, user_object_json)
         print(common.decode_data(client_socket))
@@ -102,18 +104,62 @@ while True:
 
         if choice == '4':
             data = common.decode_data(client_socket)
-            json_data = json.loads(data)
-            print("*****************************************************************")
-            for record in json_data:
-                print(
-                    f"book:{record['_book_name']} => author:{record['_author']} => available copies:{record['_count']}"
-                )
-            print("******************************************************************")
+            if data.isnumeric():
+                print(custom_code.eval_status_codes[data])
+            else:
+                json_data = json.loads(data)
+                print("*****************************************************************")
+                for record in json_data:
+                    print(
+                        f"book id: {record['_book_id']} ==>  book:{record['_book_name']} ==> author:{record['_author']}  ==> available copies:{record['_count']}"
+                    )
+                print("******************************************************************")
 
+        if choice == '5':
+            data = common.decode_data(client_socket)
+            if data.isnumeric():
+                print(custom_code.eval_status_codes[data])
+            else:
+                json_data = json.loads(data)
+                for record in json_data:
+                    print(
+                        f"book id: {record['_book_id']} ==>  book:{record['_book_name']} ==> author:{record['_author']}  ==> available copies:{record['_count']}"
+                    )
+                print(common.decode_data(client_socket))
+                book_id = input("")
+                common.encode_data(client_socket, book_id)
+                print(common.decode_data(client_socket))
+                count = input("")
+                common.encode_data(client_socket, count)
+                status_code = common.decode_data(client_socket)
+                if status_code.isnumeric():
+                    print(custom_code.eval_status_codes[status_code])
+                else:
+                    print(status_code)
 
+        if choice == '6':
+            print(common.decode_data(client_socket))
+            book_name = input("Enter book name: ")
+            author = input("Enter Author name: ")
+            count = input("Enter number of copies: ")
+            book_details = {
+                'data': [book_name, author, count]
+            }
+            book_details_json = json.dumps(book_details)
+            common.encode_data(client_socket, book_details_json)
+            status_code = common.decode_data(client_socket)
+            print(custom_code.eval_status_codes[status_code])
 
-
-
-
-
-
+        if choice == '7':
+            print("Details of book issued to you in format: {book id: number of copies}")
+            print(common.decode_data(client_socket))
+            print("Enter book details to return: ")
+            book_id = input("Enter book id: ")
+            no_of_copies = input("Enter number of copies: ")
+            book_details = {
+                'data': [book_id, no_of_copies]
+            }
+            json_data = json.dumps(book_details)
+            common.encode_data(client_socket, json_data)
+            status_code = common.decode_data(client_socket)
+            print(custom_code.eval_status_codes[status_code])

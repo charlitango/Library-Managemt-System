@@ -2,6 +2,8 @@ import json
 import socket
 import logging
 import time
+import uuid
+
 import custom_code
 import common
 import custom_exceptions
@@ -51,7 +53,6 @@ client_object.send("welcome to Library Management System !!!!".encode())
 
 while True:
     login_flag = False
-
     if not login_flag:
         menu = RegistrationForm.display_operations()
         common.encode_data(client_object, menu)
@@ -106,19 +107,68 @@ while True:
             else:
                 login_flag = False
 
-    if login_flag:
+    while login_flag:
         recv_object = common.decode_data(client_object)
         recv_object_json = json.loads(recv_object)
         if recv_object:
-            common.encode_data(client_object, "Enter choice")
+            common.encode_data(client_object, "Enter choice: ")
             choice = common.decode_data(client_object)
 
-            if choice == 3:
+            if choice == '3':
                 user_object = None
                 login_flag = False
 
             if choice == '4':
                 library_object = Library()
-                books_details = library_object.display_books()
-                book_details_json = json.dumps([record.__dict__ for record in books_details])
-                common.encode_data(client_object, book_details_json)
+                try:
+                    books_details = library_object.display_books()
+                    book_details_json = json.dumps([record.__dict__ for record in books_details])
+                    common.encode_data(client_object, book_details_json)
+                except:
+                    # internal server error
+                    common.encode_data(client_object, str(custom_code.codes[4]))
+
+            if choice == '5':
+                library_object = Library()
+                try:
+                    books_details = library_object.display_books()
+                    book_details_json = json.dumps([record.__dict__ for record in books_details])
+                    common.encode_data(client_object, book_details_json)
+                    time.sleep(1)
+                    common.encode_data(client_object, "Enter book id: ")
+                    book_id = common.decode_data(client_object)
+                    common.encode_data(client_object, "Enter number of copies: ")
+                    count = common.decode_data(client_object)
+                    status_code = library_object.order_book(book_id, count,
+                                                            recv_object_json)
+                    common.encode_data(client_object, status_code)
+                except:
+                    # internal server error
+                    common.encode_data(client_object, str(custom_code.codes[4]))
+
+            if choice == '6':
+                common.encode_data(client_object, "Add book to donate: ")
+                book_details = common.decode_data(client_object)
+                book_details_json = json.loads(book_details)
+                library_object = Library()
+                try:
+                    status_code = library_object.donate_book(book_details_json, recv_object_json)
+                    common.encode_data(client_object, str(status_code))
+                except:
+                    common.encode_data(client_object, str(custom_code.codes[4]))
+
+            if choice == '7':
+                try:
+                    library_object = Library()
+                    book_id, no_of_copies = library_object.show_issued_books(recv_object_json)
+                    data = {
+                        book_id: no_of_copies
+                    }
+                    json_data = json.dumps(data)
+                    common.encode_data(client_object, json_data)
+                    response_data = common.decode_data(client_object)
+                    response_json_data = json.loads(response_data)
+                    status_code = library_object.return_book(response_json_data, recv_object_json)
+                    common.encode_data(client_object, str(status_code))
+                except:
+                    common.encode_data(client_object, str(custom_code.codes[4]))

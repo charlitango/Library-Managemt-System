@@ -3,5 +3,5 @@ def encode_data(obj, data):
 
 
 def decode_data(obj):
-    return obj.recv(1024).decode()
+    return obj.recv(2048).decode()
 

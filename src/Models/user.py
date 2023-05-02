@@ -30,6 +30,7 @@ class User:
     def __get_user_attributes(self):
         users = []
         with open(file, 'r') as f:
+            next(f)
             csv_reader = csv.reader(f)
             for record in csv_reader:
                 if record:
